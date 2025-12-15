@@ -5,24 +5,104 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import gteLogo from "@/assets/gte-logo.jpeg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import API from "@/api/axiosInstance";
+import useAuth from "../context/AuthContext";
 
 const Auth = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [registerName, setRegisterName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [registerConfirm, setRegisterConfirm] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Add login logic here
-    setTimeout(() => setIsLoading(false), 1000);
+    
+    try {
+      const res = await API.post("/auth/login", { 
+        email: loginEmail, 
+        password: loginPassword 
+      });
+
+       login({
+        _id: res.data.user._id,
+        email: res.data.user.email,
+        role: res.data.user.role,
+        token: res.data.token,
+      });
+
+      localStorage.setItem("token", res.data.token);
+      // Redirect user based on role
+      const role = res.data.user.role;
+      if (role === "admin" || role === "instructor") {
+        alert("Login successful:" + role);
+        navigate("/courses/create");
+      } else {
+        alert("Login successful:" + role);
+        navigate("/courses");
+      }
+    } catch (error: any) {
+      let errorMessage = "Login failed";
+      
+      if (error.response) {
+        // Backend returned error response
+        errorMessage = error.response.data?.message || error.response.statusText || "Login failed";
+        console.error("Backend Error:", error.response.data);
+      } else if (error instanceof Error) {
+        // Network or other error
+        errorMessage = error.message;
+        console.error("Error:", error.message);
+      }
+      
+      alert(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Add register logic here
-    setTimeout(() => setIsLoading(false), 1000);
+    
+    try {
+      if (registerPassword !== registerConfirm) {
+        alert("Passwords do not match");
+        return;
+      }
+      
+      const res = await API.post("/auth/register", {
+        name: registerName,
+        email: registerEmail,
+        password: registerPassword,
+        role: "student"
+      });
+      localStorage.setItem("token", res.data.token);
+      alert("Registration successful");
+      navigate("/courses");
+    } catch (error: any) {
+      let errorMessage = "Registration failed";
+      
+      if (error.response) {
+        // Backend returned error response
+        errorMessage = error.response.data?.message || error.response.statusText || "Registration failed";
+        console.error("Backend Error:", error.response.data);
+      } else if (error instanceof Error) {
+        // Network or other error
+        errorMessage = error.message;
+        console.error("Error:", error.message);
+      }
+      
+      alert(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -49,7 +129,7 @@ const Auth = () => {
               Welcome to GTE
             </CardTitle>
             <CardDescription className="text-muted-foreground">
-              Start your journey in the digital era
+              Start your journey in the Tech era
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -68,6 +148,8 @@ const Auth = () => {
                       type="email"
                       placeholder="your@email.com"
                       required
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
                       className="border-primary/30 focus:border-primary bg-background/50"
                     />
                   </div>
@@ -78,6 +160,8 @@ const Auth = () => {
                       type="password"
                       placeholder="••••••••"
                       required
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
                       className="border-primary/30 focus:border-primary bg-background/50"
                     />
                   </div>
@@ -101,6 +185,8 @@ const Auth = () => {
                       type="text"
                       placeholder="John Doe"
                       required
+                      value={registerName}
+                      onChange={(e) => setRegisterName(e.target.value)}
                       className="border-primary/30 focus:border-primary bg-background/50"
                     />
                   </div>
@@ -111,6 +197,8 @@ const Auth = () => {
                       type="email"
                       placeholder="your@email.com"
                       required
+                      value={registerEmail}
+                      onChange={(e) => setRegisterEmail(e.target.value)}
                       className="border-primary/30 focus:border-primary bg-background/50"
                     />
                   </div>
@@ -121,6 +209,8 @@ const Auth = () => {
                       type="password"
                       placeholder="••••••••"
                       required
+                      value={registerPassword}
+                      onChange={(e) => setRegisterPassword(e.target.value)}
                       className="border-primary/30 focus:border-primary bg-background/50"
                     />
                   </div>
@@ -131,6 +221,8 @@ const Auth = () => {
                       type="password"
                       placeholder="••••••••"
                       required
+                      value={registerConfirm}
+                      onChange={(e) => setRegisterConfirm(e.target.value)}
                       className="border-primary/30 focus:border-primary bg-background/50"
                     />
                   </div>

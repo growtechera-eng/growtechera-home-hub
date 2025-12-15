@@ -16,7 +16,7 @@ const Hero = () => {
           <div className="inline-block">
             <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm border border-primary/30 rounded-full px-6 py-2 mb-6">
               <Sparkles className="w-4 h-4 text-primary animate-glow-pulse" />
-              <span className="text-sm font-medium text-foreground">Grow Up For Digital E-RA</span>
+              <span className="text-sm font-medium text-foreground">GROW UP FOR TECHNICAL ERA</span>
             </div>
           </div>
 
@@ -38,7 +38,7 @@ const Hero = () => {
               </Button>
             </Link>
             <Button variant="outline" size="lg" className="border-primary/50 hover:border-primary hover:bg-primary/10">
-              Explore Courses
+              Explore Projects
             </Button>
           </div>
 
@@ -48,7 +48,7 @@ const Hero = () => {
               <div className="w-12 h-12 bg-gradient-cyber rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Cpu className="w-6 h-6 text-background" />
               </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">AI & Machine Learning</h3>
+              <h3 className="text-lg font-bold text-foreground mb-2">Artificial Intelligence</h3>
               <p className="text-muted-foreground text-sm">Master cutting-edge AI technologies and build intelligent systems</p>
             </div>
 
@@ -56,16 +56,16 @@ const Hero = () => {
               <div className="w-12 h-12 bg-gradient-cyber rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Zap className="w-6 h-6 text-background" />
               </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">Electronics & IoT</h3>
-              <p className="text-muted-foreground text-sm">Build smart devices with Arduino and modern electronics</p>
+              <h3 className="text-lg font-bold text-foreground mb-2">Electronics and Communication</h3>
+              <p className="text-muted-foreground text-sm">Build smart devices and modern electronics</p>
             </div>
 
             <div className="group p-6 bg-card/50 backdrop-blur-sm border border-primary/20 rounded-2xl hover:border-primary/50 hover:shadow-cyan transition-all duration-300">
               <div className="w-12 h-12 bg-gradient-cyber rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Sparkles className="w-6 h-6 text-background" />
               </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">Industry Experts</h3>
-              <p className="text-muted-foreground text-sm">Learn from professionals with real-world experience</p>
+              <h3 className="text-lg font-bold text-foreground mb-2">Computer Science</h3>
+              <p className="text-muted-foreground text-sm">Build software with latest technology</p>
             </div>
           </div>
         </div>
